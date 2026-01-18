@@ -1,6 +1,29 @@
-@SafeVault_HostAddress = http://localhost:5262
+### Home
+GET http://localhost:5262/
 
-GET {{SafeVault_HostAddress}}/weatherforecast/
-Accept: application/json
+### Register
+POST http://localhost:5262/register
+Content-Type: application/json
 
-###
+{
+  "username": "dino",
+  "email": "dino@test.com",
+  "password": "Pass123!",
+  "role": "Admin"
+}
+
+### Login
+POST http://localhost:5262/login
+Content-Type: application/json
+
+{
+  "username": "dino",
+  "password": "Pass123!"
+}
+
+### Admin Audit (no header -> should be 401)
+GET http://localhost:5262/admin/audit
+
+### Admin Audit (with header -> should be 200)
+GET http://localhost:5262/admin/audit
+X-Role: Admin

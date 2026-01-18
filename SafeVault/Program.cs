@@ -49,8 +49,6 @@ app.MapPost("/login", (LoginRequest req) =>
 
     var result = auth.Login(username, password);
 
-    // FIX #1: Unauthorized(...) can't take an object here, so return JSON with 401
-    if (!result.ok)
         return Results.Json(new { error = result.message }, statusCode: 401);
 
     return Results.Ok(new { message = result.message, role = result.role });
@@ -60,12 +58,12 @@ app.MapGet("/admin/audit", (HttpContext ctx) =>
 {
     var role = ctx.Request.Headers["X-Role"].ToString();
 
-    // FIX #2: same issue here
     if (role != "Admin")
         return Results.Json(new { error = "Admin role required." }, statusCode: 401);
 
     return Results.Ok(new { message = "Audit logs (example)", logs = new[] { "Log1", "Log2" } });
 });
+app.MapGet("/", () => Results.Ok("SafeVault API is running"));
 
 app.Run();
 
